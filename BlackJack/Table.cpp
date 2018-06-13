@@ -139,30 +139,39 @@ void Table::play()
 			deck.pop_back();				// mice tu kartu iz spila 
 		}
 
+		string winnerName;
+		int winnerScore = 0;
+
 		for (size_t i = 0; i < players.size(); i++)
 		{
 			cout << players[i].name << " has : " << players[i].getScore() << " points." << endl;
+			if (players[i].getScore() > winnerScore)
+			{
+				winnerScore = players[i].getScore();
+				winnerName = players[i].name;
+			}
 		}
 
-		cout << "The house has : " << house.getScore() << " points." << endl;
-		/*
-		if (playerValue > 21)
+		cout << "The house has : " << house.getScore() << " points." << endl << endl;
+
+		if (house.getScore() > winnerScore)
 		{
-		cout << "The player busted! Sorry!" << endl;
+			winnerScore = house.getScore();
+			winnerName = "House";
+
+			cout << "The winner is " << winnerName << " with " << winnerScore << " points." << endl;
 		}
-		else if (houseValue > 21)
+		else if (house.getScore() == winnerScore)
 		{
-		cout << "The house busted! You won!" << endl;
-		}
-		else if (abs(21 - playerValue) < (abs(21 - houseValue)))
-		{
-		cout << "The player won!" << endl;
+			cout << "No winner" << endl;
 		}
 		else
 		{
-		cout << "The house won!" << endl;
+			cout << "The winner is " << winnerName << " with " << winnerScore << " points." << endl;
 		}
-		*/
+
+		
+
 		return;
 	}
 }
