@@ -3,8 +3,8 @@
 #include "Card.h"
 #include "suitEnum.h"
 #include <iostream>
-#include<algorithm>
-#include<time.h>
+#include <algorithm>
+#include <time.h>
 
 Table::Table()
 {
@@ -76,6 +76,95 @@ void Table::printDeck()
 void Table::addPlayer(Player player)
 {
 	players.push_back(player);
+}
+
+void Table::play()
+{
+	while (true)
+	{
+		int playerNumbers;
+		cout << "How many players will play? ";
+		cin >> playerNumbers;
+		if (cin.bad() || playerNumbers <= 0)
+		{
+			return;
+		}
+
+		for (size_t i = 0; i < playerNumbers; i++) // upis imena igraca i iznos njihovih novaca
+		{
+			string name;
+			double cash;
+			cout << "Please enter your desired name: ";
+			cin >> name;
+
+			players.push_back(Player(name)); // vracanje valuea u vector igraca
+		}
+
+
+
+		char choice;
+		int houseValue = 0;
+
+		for (size_t i = 0; i < players.size(); i++)
+		{
+			int brojac = 0;
+			while (players[i].getScore() < 21)
+			{
+				cout << "Does the " << players[i].name << " wish to get a card?(y/n):  ";
+				cin >> choice;
+
+				if (choice == 'y')
+				{
+					players[i].addCard(deck.back());// stavlja zadnju kartu u ruku od igraca
+					deck.pop_back();				  // mice tu kartu iz spila 
+				}
+				else if (choice == 'n')
+				{
+					break;
+				}
+			}
+		}
+
+
+		cout << "\n";
+		cout << "\n";
+		cout << "----------------------------" << endl;
+		cout << "THE HOUSE PLAYS!" << endl;
+
+
+		while (house.getScore() <= 21 && house.getScore() < 13)
+		{
+			
+			house.addCard(deck.back());// stavlja zadnju kartu u ruku od kuce
+			deck.pop_back();				// mice tu kartu iz spila 
+		}
+
+		for (size_t i = 0; i < players.size(); i++)
+		{
+			cout << players[i].name << " has : " << players[i].getScore() << " points." << endl;
+		}
+
+		cout << "The house has : " << house.getScore() << " points." << endl;
+		/*
+		if (playerValue > 21)
+		{
+		cout << "The player busted! Sorry!" << endl;
+		}
+		else if (houseValue > 21)
+		{
+		cout << "The house busted! You won!" << endl;
+		}
+		else if (abs(21 - playerValue) < (abs(21 - houseValue)))
+		{
+		cout << "The player won!" << endl;
+		}
+		else
+		{
+		cout << "The house won!" << endl;
+		}
+		*/
+		return;
+	}
 }
 
 void Table::randomiseDeck()
